@@ -85,21 +85,10 @@ resource "aws_security_group" "allow_ssh" {
   }
 }
 
-resource "aws_workspaces_workspace" "prototype_linux" {
-  directory_id = aws_workspaces_directory.prototype.id
-  bundle_id    = var.linux_bundle_id
-  user_name    = "prototypelinux"
-
-  root_volume_encryption_enabled = false
-  user_volume_encryption_enabled = false
-
-  workspace_properties {
-    compute_type_name                         = "STANDARD"
-    user_volume_size_gib                      = 10
-    root_volume_size_gib                      = 80
-    running_mode                              = "AUTO_STOP"
-    running_mode_auto_stop_timeout_in_minutes = 60
-  }
+resource "aws_ssm_parameter" "prototype_directory_id" {
+  name  = "/workspaces/prototype/directory_id"
+  type  = "String"
+  value = aws_directory_service_directory.prototype.id
 }
 
 resource "aws_workspaces_directory" "live" {
@@ -158,6 +147,12 @@ resource "aws_directory_service_directory" "live" {
       element(var.vpc_private_subnet_ids, 1)
     ]
   }
+}
+
+resource "aws_ssm_parameter" "live_directory_id" {
+  name  = "/workspaces/live/directory_id"
+  type  = "String"
+  value = aws_directory_service_directory.live.id
 }
 
 data "aws_iam_policy_document" "workspaces" {

@@ -1,3 +1,13 @@
+output "prototype_directory_id" {
+  description = "ID of the prototype workspaces directory"
+  value = aws_directory_service_directory.prototype.id
+}
+
+output "live_directory_id" {
+  description = "ID of the live workspaces directory"
+  value = aws_directory_service_directory.live.id
+}
+
 output "step_function_workspaces_management_arn" {
   description = "The ARN of the Step Function"
   value = module.step_function_workspaces_management.state_machine_arn
