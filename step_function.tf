@@ -19,7 +19,8 @@ module "lambda_layer_python_paramiko" {
   runtime     = "python3.7"
   compatible_runtimes = ["python3.7"]
 
-  source_path = "${path.module}/src/lambda_layer-PythonParamiko/"
+  create_package         = false
+  local_existing_package = "${path.module}/src/lambda_layer-PythonParamiko/python.zip"
 }
 
 module "lambda_function_get_workspace_state" {
