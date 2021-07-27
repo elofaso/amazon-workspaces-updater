@@ -14,8 +14,8 @@ logger.setLevel(getattr(logging, os.getenv('LOG_LEVEL', 'DEBUG')))
 
 directoryId = ssm_client.get_parameter(Name='/workspaces/prototype/directory_id')['Parameter']['Value']
 workspaceIp = ws_client.describe_workspaces(DirectoryId=directoryId)['Workspaces'][0]['IpAddress']
-workspaceUsername = ssm_client.get_parameter(Name='/workspaces/prototype/username')['Parameter']['Value']
-workspacePassword = ssm_client.get_parameter(Name='/workspaces/prototype/password')['Parameter']['Value']
+workspaceUsername = 'PROTOTYPE\\' + ssm_client.get_parameter(Name='/workspaces/prototype/username')['Parameter']['Value']
+workspacePassword = ssm_client.get_parameter(Name='/workspaces/prototype/password', WithDecryption=True)['Parameter']['Value']
 
 
 def get_ssh_connection(ssh_machine, ssh_username, ssh_password):
