@@ -20,7 +20,7 @@ module "lambda_layer_python_paramiko" {
   compatible_runtimes = ["python3.7"]
 
   create_package         = false
-  local_existing_package = "${path.module}/src/lambda_layer-PythonParamiko/python.zip"
+  local_existing_package = "${path.module}/src/lambda_layer-PythonParamiko/lambda_layer-PythonParamiko.zip"
 }
 
 module "lambda_function_get_workspace_state" {
@@ -32,6 +32,7 @@ module "lambda_function_get_workspace_state" {
   description   = "Returns state of prototype Linux Workspace"
   handler       = "lambda_function.lambda_handler"
   runtime       = "python3.7"
+  timeout       = 30
 
   source_path = "${path.module}/src/lambda_function-getWorkspaceState/"
 
@@ -61,6 +62,7 @@ module "lambda_function_rebuild_workspaces" {
   description   = "Rebuilds Workspaces in specified Directory"
   handler       = "lambda_function.lambda_handler"
   runtime       = "python3.7"
+  timeout       = 30
 
   source_path = "${path.module}/src/lambda_function-rebuildWorkspaces/"
 
@@ -90,6 +92,7 @@ module "lambda_configure_linux_workspace" {
   description   = "Installs software on prototype Linux Workspace"
   handler       = "lambda_function.lambda_handler"
   runtime       = "python3.7"
+  timeout       = 600
 
   source_path = "${path.module}/src/lambda_function-configureLinuxWorkspace/"
 
@@ -100,7 +103,8 @@ module "lambda_configure_linux_workspace" {
   vpc_security_group_ids = [var.vpc_default_security_group_id]
   attach_network_policy  = true
 
-  layers = [module.lambda_layer_python_paramiko.lambda_layer_arn]
+  #layers = [module.lambda_layer_python_paramiko.lambda_layer_arn]
+  layers = ["arn:aws:lambda:us-east-1:898466741470:layer:paramiko-py37:2"]
 
   attach_cloudwatch_logs_policy = true
 
@@ -128,6 +132,7 @@ module "lambda_check_for_new_workspace_image" {
   description   = "Checks for AVAILABLE Workspace Image created since completion time of configure_linux_workspace"
   handler       = "lambda_function.lambda_handler"
   runtime       = "python3.7"
+  timeout       = 30
 
   source_path = "${path.module}/src/lambda_function-checkForNewWorkspaceImage/"
 
@@ -152,6 +157,7 @@ module "lambda_update_workspace_bundle" {
   description   = "Updates Workspace Bundle with new Image ID"
   handler       = "lambda_function.lambda_handler"
   runtime       = "python3.7"
+  timeout       = 30
 
   source_path = "${path.module}/src/lambda_function-updateWorkspaceBundle/"
 
@@ -283,7 +289,7 @@ module "eventbridge_workspaces_updater-cron" {
   rules = {
     WorkspacesUpdater-cron = {
       description   = "Start step function"
-      schedule_expression = "cron(0 20 * * ? *)"
+      schedule_expression = "cron(${var.cron_expression})"
       enabled       = true
     }
  }
