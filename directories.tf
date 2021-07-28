@@ -180,3 +180,15 @@ resource "aws_iam_role_policy_attachment" "workspaces_default_self_service_acces
   role       = aws_iam_role.workspaces_default.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonWorkSpacesSelfServiceAccess"
 }
+
+resource "aws_ssm_parameter" "prototype_linux_username" {
+  name  = "/workspaces/prototype/username"
+  type  = "String"
+  value = "prototypelinux"
+}
+
+resource "aws_ssm_parameter" "prototype_linux_password" {
+  name  = "/workspaces/prototype/password"
+  type  = "SecureString"
+  value = "MSDd48!@Rc58iYy"
+}
