@@ -11,4 +11,5 @@ module "workspaces" {
   vpc_default_security_group_id = "sg-0d19d98ea9342b01a"
   prototype_directory_password = "hadify9947532ladfaphgsafhoh"
   live_directory_password = "afdahi$eth896394zodfaiadhoha"
+  cron_expression = "0 20 * * ? *"
 } 
