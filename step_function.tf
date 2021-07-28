@@ -167,12 +167,18 @@ module "lambda_update_workspace_bundle" {
   policy_statements = {
     ssm_get_parameter = {
       effect    = "Allow",
-      actions   = ["ssm:GetParameter"],
+      actions   = [
+              "ssm:GetParameter",
+              "ssm:PutParameter"
+      ],
       resources = ["arn:aws:ssm:*:*:parameter/workspaces/*"]
     },
     workspaces_describe_workspaces = {
       effect    = "Allow",
-      actions   = ["workspaces:UpdateWorkspaceBundle"],
+      actions   = [
+              "workspaces:UpdateWorkspaceBundle",
+              "workspaces:CreateWorkspaceBundle"
+      ],
       resources = ["*"]
     }
   }
