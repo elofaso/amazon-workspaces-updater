@@ -38,7 +38,6 @@ def run_sudo_command(jobid, command, ssh_username=workspaceUsername, ssh_passwor
     returns status of the command executed and Output of the command.
     """
     conn = get_ssh_connection(ssh_machine=ssh_machine, ssh_username=ssh_username, ssh_password=ssh_password)
-    #command = "sudo -S -p '' %s" % command
     command = "sudo -S -p '' sh -c '%s'" % command
     logging.info("Job[%s]: Executing: %s" % (jobid, command))
     stdin, stdout, stderr = conn.exec_command(command=command)
