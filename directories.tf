@@ -60,7 +60,7 @@ data "aws_vpc" "selected" {
 }
 
 resource "aws_security_group" "allow_ssh" {
-  name        = "allow_ssh"
+  name        = "WorkspacesUpdater-allow-ssh"
   description = "Allow SSH inbound traffic"
   vpc_id      = var.vpc_id
 
