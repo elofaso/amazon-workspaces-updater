@@ -7,7 +7,7 @@ VPC with 4 private subnets having Workspaces service available.
 Follow example to call module with vars.  
 terraform init  
 terraform apply  
-(AWS Console) Create Linux Workspace in protype directory with username 'prototypelinux'.  
+(AWS Console) Create Linux Workspace in protype directory with username 'prototypelinux' and email address where you will receive web link.  
 Set password from link in email sent after workspace creation.  
 (AWS Console) Create SSM Parameter /workspaces/prototype/password as Type SecureString with default KMS key and just created password as Value.  
 (AWS Console) Subscribe to WorkspacesUpdater-Status SNS topic for status notifications.  
