@@ -4,6 +4,7 @@ Requirements:
 VPC with 4 private subnets having Workspaces service available.
 
 Setup:
+Follow example to call module with vars.
 terraform init
 terraform apply
 (AWS Console) Create Linux Workspace in protype directory.
