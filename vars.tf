@@ -29,10 +29,6 @@ variable "prototype_directory_password" {
   type    = string
 }
 
-variable "linux_bundle_id" {
-  default = "wsb-clj85qzj1" # Standard with Amazon Linux 2 (English) with 2 vCPU 4GiB Memory 50GB Storage
-}
-
 variable "live_directory_name" {
   type    = string
   default = "live.homegauge.com"
@@ -40,4 +36,8 @@ variable "live_directory_name" {
 
 variable "live_directory_password" {
   type    = string
+}
+
+variable "linux_bundle_id" {
+  default = "wsb-clj85qzj1" # Standard with Amazon Linux 2 (English) with 2 vCPU 4GiB Memory 50GB Storage
 }
