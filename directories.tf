@@ -190,5 +190,5 @@ resource "aws_ssm_parameter" "prototype_linux_username" {
 resource "aws_ssm_parameter" "prototype_linux_password" {
   name  = "/workspaces/prototype/password"
   type  = "SecureString"
-  value = "MSDd48!@Rc58iYy"
+  value = "[Enter Password]"
 }
