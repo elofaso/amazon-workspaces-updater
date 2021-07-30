@@ -7,9 +7,9 @@ Setup:
 Follow example to call module with vars.
 terraform init
 terraform apply
-(AWS Console) Create Linux Workspace in protype directory.
+(AWS Console) Create Linux Workspace in protype directory with username 'prototypelinux'.
 Set password from link in email sent after workspace creation.
-(AWS Console) Enter Linux Workspace username and password in SSM Paramters: /workspaces/prototype/username and /workspaces/prototype/password
+(AWS Console) Create SSM Parameter /workspaces/prototype/password as Type SecureString with default KMS key and just created password as Value.
 (AWS Console) Subscribe to WorkspacesUpdater-Status SNS topic for status notifications.
 
 Run:
