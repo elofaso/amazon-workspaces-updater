@@ -20,7 +20,7 @@ module "lambda_layer_python_paramiko" {
   compatible_runtimes = ["python3.7"]
 
   create_package         = false
-  local_existing_package = "${path.module}/src/lambda_layer-PythonParamiko/lambda_layer-PythonParamiko.zip"
+  local_existing_package = "${path.module}/src/lambda_layer-PythonParamiko/python.zip"
 }
 
 module "lambda_function_get_workspace_state" {
@@ -103,8 +103,7 @@ module "lambda_configure_linux_workspace" {
   vpc_security_group_ids = [var.vpc_default_security_group_id]
   attach_network_policy  = true
 
-  #layers = [module.lambda_layer_python_paramiko.lambda_layer_arn]
-  layers = ["arn:aws:lambda:us-east-1:898466741470:layer:paramiko-py37:2"]
+  layers = [module.lambda_layer_python_paramiko.lambda_layer_arn]
 
   attach_cloudwatch_logs_policy = true
 
@@ -237,6 +236,24 @@ data "aws_iam_policy_document" "sns_topic_policy" {
 
     sid = "__default_statement_ID"
   }
+
+  statement {
+    actions = [
+      "sns:Publish",
+    ]
+
+    effect =  "Allow"
+
+    principals {
+      type     = "Service"
+      identifiers = ["events.amazonaws.com"]
+    }
+
+    resources = [
+      aws_sns_topic.step_function_status.arn,
+    ]
+    sid = "AWSEvents_WorkspacesUpdater-failed"
+  }
 }
 
 module "step_function_workspaces_management" {
@@ -279,6 +296,10 @@ module "step_function_workspaces_management" {
   }
 }
 
+resource "aws_cloudwatch_log_group" "log_group_workspaces_updater_cron" {
+  name = "/aws/events/WorkspacesUpdater-Cron"
+}
+
 module "eventbridge_workspaces_updater-cron" {
   source = "terraform-aws-modules/eventbridge/aws"
 
@@ -289,8 +310,8 @@ module "eventbridge_workspaces_updater-cron" {
   attach_sfn_policy = true
   sfn_target_arns   = [module.step_function_workspaces_management.state_machine_arn]
 
-  #attach_cloudwatch_policy = true
-  #cloudwatch_target_arns   = [aws_cloudwatch_log_group.this.arn]
+  attach_cloudwatch_policy = true
+  cloudwatch_target_arns   = [aws_cloudwatch_log_group.log_group_workspaces_updater_cron.arn]
 
   rules = {
     WorkspacesUpdater-cron = {
@@ -326,7 +347,7 @@ module "eventbridge_workspaces_updater_status_failed" {
   cloudwatch_target_arns   = [aws_cloudwatch_log_group.log_group_workspaces_updater_status.arn]
 
   rules = {
-   WorkspacesUpdater-failed = {
+    WorkspacesUpdater-failed = {
       description   = "Report step function failures"
       event_pattern = jsonencode(
                 {
