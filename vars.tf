@@ -35,6 +35,7 @@ variable "live_directory_name" {
 }
 
 variable "live_directory_password" {
+  description = "password to manage directory"
   type    = string
 }
 
