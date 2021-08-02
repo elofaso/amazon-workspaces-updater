@@ -29,7 +29,6 @@ resource "aws_workspaces_directory" "prototype" {
 
   workspace_creation_properties {
     custom_security_group_id = aws_security_group.allow_ssh.id
-    #default_ou                          = "OU=AWS,DC=Workgroup,DC=Homegauge,DC=com"
     enable_internet_access              = true
     enable_maintenance_mode             = true
     user_enabled_as_local_administrator = true
@@ -42,8 +41,8 @@ resource "aws_workspaces_directory" "prototype" {
 }
 
 resource "aws_directory_service_directory" "prototype" {
-  name     = "prototype.homegauge.com"
-  password = "#S1ncerely"
+  name     = var.prototype_directory_name
+  password = var.prototype_directory_password
   size     = "Small"
 
   vpc_settings {
@@ -121,8 +120,6 @@ resource "aws_workspaces_directory" "live" {
   }
 
   workspace_creation_properties {
-    #custom_security_group_id            = aws_security_group.workspaces.id
-    #default_ou                          = "OU=AWS,DC=Workgroup,DC=Homegauge,DC=com"
     enable_internet_access              = true
     enable_maintenance_mode             = true
     user_enabled_as_local_administrator = false
