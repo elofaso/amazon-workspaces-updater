@@ -47,3 +47,11 @@ output "sns_topic_step_function_status_arn" {
   description = "The ARN of the SNS Topic"
   value       = aws_sns_topic.step_function_status.arn
 }
+
+output "windows_server_public_ip" {
+  value=aws_instance.windows_server.public_ip
+}
+
+output "windows_server_private_ip" {
+  value=aws_instance.windows_server.private_ip
+}

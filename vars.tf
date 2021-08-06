@@ -6,8 +6,18 @@ variable "cron_expression" {
   # https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-create-rule-schedule.html#eb-cron-expressions
 }
 
+variable "my_ip_address" {
+  type    = string
+  description = "CIDR block representing IP addresses connecting to Windows Server RDP"
+}
+
 variable "vpc_id" {
   type    = string
+}
+
+variable "vpc_public_subnet_id" {
+  type    = string
+  description = "A public subnet ID"
 }
 
 variable "vpc_private_subnet_ids" {
@@ -39,6 +49,29 @@ variable "live_directory_password" {
   type    = string
 }
 
-variable "linux_bundle_id" {
-  default = "wsb-clj85qzj1" # Standard with Amazon Linux 2 (English) with 2 vCPU 4GiB Memory 50GB Storage
+variable "win_amis" {
+  type = map(string)
+  default = { 
+    us-east-1 = "ami-077f1edd46ddb3129"
+    us-west-2 = "ami-027bdf1182290ac39"
+  } 
+} 
+
+variable "path_to_windows_server_private_key" { 
+  type    = string
+  default = "windows_server_rsa" 
+}
+
+variable "path_to_windows_server_public_key" {
+  type    = string
+  default = "windows_server_rsa.pub" 
+}
+
+variable "windows_server_username" {
+  type    = string
+  default = "admin" 
+}
+
+variable "windows_server_password" { 
+  type    = string
 }

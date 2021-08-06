@@ -5,6 +5,7 @@ VPC with 4 private subnets having Workspaces service available.
   
 ### Setup:  
 Follow example to call module with vars.  
+ssh-keygen -m pem -f windows_server_rsa
 terraform init  
 terraform apply  
 (AWS Console) Create Linux Workspace in protype directory with username 'prototypelinux' and email address where you will receive web link.  
