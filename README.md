@@ -15,5 +15,5 @@ Set password from link in email sent after workspace creation.
   
 ### Run:  
 Notification will be received when the prototype Linux Workspace has been rebuilt and configured, requesting a new image be created.  
-(AWS Console) Create image from prototype Linux Workspace.   
+After notifcation received--(AWS Console) Create image from prototype Linux Workspace.   
 Notification will be received when live Workspaces have started rebuilding.  
