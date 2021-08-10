@@ -12,7 +12,7 @@ module "workspaces" {
   vpc_default_security_group_id = "sg-05fff065869555ec4"
   prototype_directory_password = "hadify994753@2ladfaphgsafhoh"
   live_directory_password = "afdahi$eth896394zodfaiadhoha"
-  cron_expression = "0 20 * * ? *"
+  cron_expression = "0 8 ? * SUN *"
   windows_server_password = "!@m9CEiKBL3@kL8"
   my_ip_address = "107.214.104.157/32"
 } 
