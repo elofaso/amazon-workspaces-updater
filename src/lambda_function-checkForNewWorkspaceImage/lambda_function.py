@@ -19,7 +19,7 @@ def lambda_handler(event, context):
 
     images = response['Images']
 
-    images = [image for image in images if image['OperatingSystem']['Type'] == 'LINUX' and image['State'] == 'AVAILABLE' and image['Created'] > configurationCompletionDateTime - datetime.timedelta(hours=3)]
+    images = [image for image in images if image['OperatingSystem']['Type'] == 'LINUX' and image['State'] == 'AVAILABLE' and image['Created'] > configurationCompletionDateTime]
 
     images.sort(key=lambda k: k['Created'], reverse=True)
     
