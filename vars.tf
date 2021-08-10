@@ -1,6 +1,6 @@
 variable "cron_expression" {
   type    = string
-  default = "0 8 * * SUN *"
+  default = "0 8 ? * SUN *"
   # 08:00 every Sunday UTC
   # Minutes Hours Day-of-month Month Day-of-week Year
   # https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-create-rule-schedule.html#eb-cron-expressions
