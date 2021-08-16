@@ -78,23 +78,32 @@ def lambda_handler(event, context):
     run_sudo_command(5,'amazon-linux-extras enable mariadb10.5')
     run_sudo_command(6,'yum clean metadata')
     run_sudo_command(7,'yum install -y mariadb')
-    #install java 11
-    run_sudo_command(8,'amazon-linux-extras enable java-openjdk11')
-    run_sudo_command(9,'yum clean metadata')
-    run_sudo_command(10,'yum -y install java-11-openjdk')
+    #install kubectl
+    run_sudo_command(8,'curl -o kubectl https://amazon-eks.s3-us-west-2.amazonaws.com/1.21.2/2021-07-05/bin/linux/amd64/kubectl')
+    run_sudo_command(9,'install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl')
+    run_sudo_command(10,'rm kubectl')
+    #install helm
+    run_sudo_command(11,'curl -o helm.tgz https://get.helm.sh/helm-v3.6.3-linux-amd64.tar.gz')
+    run_sudo_command(12,'tar zxf helm.tgz')
+    run_sudo_command(13,'install -o root -g root -m 0755 linux-amd64/helm /usr/local/bin/helm')
+    run_sudo_command(14,'rm -r helm.tgz linux-amd64')
     #install terraform 
-    run_sudo_command(11,'yum install -y wget unzip')
-    run_sudo_command(12,'wget https://releases.hashicorp.com/terraform/0.14.11/terraform_0.14.11_linux_amd64.zip')
-    run_sudo_command(13,'unzip terraform_0.14.11_linux_amd64.zip')
-    run_sudo_command(14,'mv terraform /usr/local/bin/')
-    run_sudo_command(15,'rm  terraform_0.14.11_linux_amd64.zip')
+    run_sudo_command(15,'yum install -y wget unzip')
+    run_sudo_command(16,'wget https://releases.hashicorp.com/terraform/0.14.11/terraform_0.14.11_linux_amd64.zip')
+    run_sudo_command(17,'unzip terraform_0.14.11_linux_amd64.zip')
+    run_sudo_command(17,'mv terraform /usr/local/bin/')
+    run_sudo_command(18,'rm terraform_0.14.11_linux_amd64.zip')
     #install vscode
-    run_sudo_command(16,'rpm --import https://packages.microsoft.com/keys/microsoft.asc')
-    run_sudo_command(17,'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo')
-    run_sudo_command(18,'yum check-update')
-    run_sudo_command(19,'yum install -y code')
+    run_sudo_command(20,'rpm --import https://packages.microsoft.com/keys/microsoft.asc')
+    run_sudo_command(21,'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo')
+    run_sudo_command(22,'yum check-update')
+    run_sudo_command(23,'yum install -y code')
     #install dbeaver
-    run_sudo_command(20,'rpm -Uv https://dbeaver.io/files/dbeaver-ce-latest-stable.x86_64.rpm')
+    run_sudo_command(24,'rpm -Uv https://dbeaver.io/files/dbeaver-ce-latest-stable.x86_64.rpm')
+    #enable docker daemon
+    run_sudo_command(25,'systemctl enable docker')
+    #set jdk-11 as default java
+    run_sudo_command(26,'alternatives --set java /usr/lib/jvm/java-11-amazon-corretto.x86_64/bin/java')
 
     configurationCompletionDateTime = datetime.isoformat(datetime.now(tz=tz.tzlocal()))
 
