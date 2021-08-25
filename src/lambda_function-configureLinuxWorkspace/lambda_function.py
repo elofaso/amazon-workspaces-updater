@@ -104,7 +104,12 @@ def lambda_handler(event, context):
     run_sudo_command(25,'systemctl enable docker')
     #set jdk-11 as default java
     run_sudo_command(26,'alternatives --set java /usr/lib/jvm/java-11-amazon-corretto.x86_64/bin/java')
-
+    #change group of docker.socket after docker.socket service starts
+    run_sudo_command(27,'mkdir /etc/systemd/system/rc-local.service.d')
+    run_sudo_command(28,'echo -e "[Unit]\nAfter=docker.socket.target" > /etc/systemd/system/rc-local.service.d/override.conf')
+    run_sudo_command(29,'echo "chgrp LIVE\\domain\ users /var/run/docker.sock" >> /etc/rc.d/rc.local')
+    run_sudo_command(30,'chmod 744 /etc/rc.d/rc.local')
+    
     configurationCompletionDateTime = datetime.isoformat(datetime.now(tz=tz.tzlocal()))
 
     return {
